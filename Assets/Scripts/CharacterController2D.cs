@@ -60,5 +60,6 @@ public class CharacterController2D : MonoBehaviour {
 
 	public void OnDrawGizmosSelected() {
 		Gizmos.color = (onGround) ? Color.yellow : Color.red;
+		Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 	}
 }

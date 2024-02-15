@@ -30,6 +30,8 @@ public class Player2D : MonoBehaviour {
 		if (characterController.onGround && Input.GetButtonDown("Jump")) {
 			movement.y = jump;
 		}
+
+		animator.SetBool("onGround", characterController.onGround);
 	}
 
 	void FixedUpdate() {
