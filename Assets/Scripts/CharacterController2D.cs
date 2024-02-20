@@ -4,12 +4,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class CharacterController2D : MonoBehaviour {
+public class CharacterController2D : MonoBehaviour
+{
 	[SerializeField] LayerMask groundLayerMask;
 	[SerializeField] Transform groundCheck;
 	[SerializeField] float groundCheckRadius;
 
 	public bool onGround { get; private set; }
+
 
 	private Vector2 prevPosition;
 	private Vector2 position;
@@ -20,16 +22,19 @@ public class CharacterController2D : MonoBehaviour {
 	private Rigidbody2D rb;
 	private CapsuleCollider2D capsuleCollider;
 
-	void Start() {
+	void Start()
+	{
 		rb = GetComponent<Rigidbody2D>();
 		capsuleCollider = GetComponent<CapsuleCollider2D>();
 	}
 
-	private void Update() {
+	private void Update()
+	{
 		CheckCollision();
 	}
 
-	void FixedUpdate() {
+	void FixedUpdate()
+	{
 		prevPosition = rb.position;
 		position = prevPosition + positionOffset;
 		velocity = (position - positionOffset) / Time.fixedDeltaTime;
@@ -38,27 +43,33 @@ public class CharacterController2D : MonoBehaviour {
 		positionOffset = Vector2.zero;
 	}
 
-	public void Move(Vector2 move) {
+	public void Move(Vector2 move)
+	{
 		positionOffset += move;
 	}
 
-	public void Teleport(Vector2 newPosition) {
+	public void Teleport(Vector2 newPosition) 
+	{
 		Vector2 delta = newPosition - position;
 		prevPosition += delta;
 		position = newPosition;
 		rb.MovePosition(position);
 	}
 
-	public void CheckCollision() {
+	public void CheckCollision()
+	{
 		onGround = false;
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, groundLayerMask);
-		foreach (var collider in colliders) {
+		foreach (var collider in colliders)
+		{
 			if (collider.gameObject == gameObject) continue;
+
 			onGround = true;
 		}
 	}
 
-	public void OnDrawGizmosSelected() {
+	public void OnDrawGizmosSelected()
+	{
 		Gizmos.color = (onGround) ? Color.yellow : Color.red;
 		Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 	}
