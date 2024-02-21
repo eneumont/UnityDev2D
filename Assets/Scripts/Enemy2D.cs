@@ -14,9 +14,9 @@ public class Enemy2D : Character2D, IDamagable {
 	[SerializeField] AIPerception2D perception;
 	[SerializeField] AIPath2D path2D;
 
-	[SerializeField] float attackRate = 2;
 	[SerializeField] float attackRange = 2;
 	[SerializeField] float maxHealth = 2;
+	[SerializeField] Weapon2D weapon2D;
 
 	private eState state;
 	private float timer;
@@ -70,9 +70,11 @@ public class Enemy2D : Character2D, IDamagable {
 			movement.x = (transform.position.x < enemy.transform.position.x) ? speed : -speed;
 			if (Mathf.Abs(transform.position.x - enemy.transform.position.x) < attackRange) {
 				state = eState.Attack;
+				weapon2D.Use(animator);
 				animator.SetTrigger("Attack");
 			}
 		}
+		if (state == eState.Death) movement.x = 0;
 
 		animator.SetFloat("Speed", Mathf.Abs(movement.x));
 		if (Mathf.Abs(movement.x) > 0.1f) facing = (movement.x > 0) ? eFace.Right : eFace.Left;
@@ -80,8 +82,15 @@ public class Enemy2D : Character2D, IDamagable {
 		base.FixedUpdate();
 	}
 
-	public void AttackDone() { 
-		state = eState.Chase;
+	public void AttackDone() {
+		if (state != eState.Death) { 
+			state = eState.Chase;
+		}
+	}
+
+	public void Attack() {
+		Weapon2D.eDirection direction = (facing == eFace.Right) ? Weapon2D.eDirection.Right : Weapon2D.eDirection.Left;
+		weapon2D.Attack(direction);
 	}
 
 	public void ApplyDamage(float damage) {

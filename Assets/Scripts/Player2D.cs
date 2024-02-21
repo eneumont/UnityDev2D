@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2D : Character2D, IDamagable {
+public class Player2D : Character2D, IDamagable, IHealable {
+	[SerializeField] IntVariable score;
+	[SerializeField] FloatVariable healthVar;
 	[SerializeField, Range(0, 20)] float jump = 12;
+	[SerializeField] Weapon2D weapon;
 
 	private void Update() {
 		if (characterController.onGround && Input.GetButtonDown("Jump")) {
@@ -12,7 +15,8 @@ public class Player2D : Character2D, IDamagable {
 		animator.SetBool("OnGround", characterController.onGround);
 
 		if (Input.GetButtonDown("Fire1")) {
-			animator.SetTrigger("Attack");
+			//animator.SetTrigger("Attack");
+			weapon.Use(animator);
 		}
 	}
 
@@ -26,15 +30,15 @@ public class Player2D : Character2D, IDamagable {
 	}
 
 	public void Attack() {
-		var colliders = Physics2D.OverlapCircleAll(transform.position, 2);
-        foreach (var item in colliders) {
-			if (item.gameObject.TryGetComponent(out IDamagable damageable)) {
-				damageable.ApplyDamage(1000);
-			} 
-        }
-    }
+		Weapon2D.eDirection direction = (facing == eFace.Right) ? Weapon2D.eDirection.Right : Weapon2D.eDirection.Left;
+		weapon.Attack(direction);
+	}
 
 	public void ApplyDamage(float damage) {
-		
+		print("damage: " + damage);
+	}
+
+	public void Heal(float health) {
+		print("heal: " + health);
 	}
 }
