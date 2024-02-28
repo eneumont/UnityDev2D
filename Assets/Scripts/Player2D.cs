@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2D : Character2D, IDamagable, IHealable {
+public class Player2D : Character2D, IDamagable, IHealable, IScoreable {
 	[SerializeField] IntVariable score;
 	[SerializeField] FloatVariable healthVar;
 	[SerializeField, Range(0, 20)] float jump = 12;
@@ -35,10 +35,14 @@ public class Player2D : Character2D, IDamagable, IHealable {
 	}
 
 	public void ApplyDamage(float damage) {
-		print("damage: " + damage);
+		healthVar.value -= damage;
 	}
 
 	public void Heal(float health) {
-		print("heal: " + health);
+		healthVar.value += health;
+	}
+
+	public void addScore(int score) {
+		this.score.value += score;
 	}
 }

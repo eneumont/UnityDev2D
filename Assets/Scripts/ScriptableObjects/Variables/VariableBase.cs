@@ -6,26 +6,22 @@ using UnityEngine;
 /// <summary>
 /// VariableBase - ScriptableObject representing a variable of type T.
 /// </summary>
-public class VariableBase<T> : ScriptableObject, ISerializationCallbackReceiver
-{
+public class VariableBase<T> : ScriptableObject, ISerializationCallbackReceiver {
 	public T initialValue;  // The initial value of the variable.
 
-	[NonSerialized]	public T value;  // The current value of the variable.
-
+	public T value;  // The current value of the variable.
 
 	/// <summary>
 	/// Called after deserialization. Sets the current value to the initial value.
 	/// </summary>
-	public void OnAfterDeserialize()
-	{
+	public void OnAfterDeserialize() {
 		value = initialValue;
 	}
 
 	/// <summary>
 	/// Called before serialization. Placeholder method with no implementation.
 	/// </summary>
-	public void OnBeforeSerialize()
-	{
+	public void OnBeforeSerialize() {
 		// No implementation needed for this method.
 	}
 
@@ -35,8 +31,7 @@ public class VariableBase<T> : ScriptableObject, ISerializationCallbackReceiver
 	/// </summary>
 	/// <param name="variable">The variable of type T to convert.</param>
 	/// <returns>The underlying value of the variable of type T.</returns>
-	public static implicit operator T(VariableBase<T> variable)
-	{
+	public static implicit operator T(VariableBase<T> variable) {
 		return variable.value;
 	}
 }

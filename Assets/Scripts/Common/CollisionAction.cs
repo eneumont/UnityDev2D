@@ -7,29 +7,23 @@ using UnityEngine.Events;
 /// <summary>
 /// CollisionAction - Map collision events to actions.
 /// </summary>
-public class CollisionAction : Action
-{
+public class CollisionAction : Action {
 	[SerializeField] private string tagName;
 
 	#region COLLISION EVENTS
-
-	public void OnTriggerEnter(Collider other)
-	{
-		if (tagName == string.Empty || other.CompareTag(tagName))
-		{
+	public void OnTriggerEnter2D(Collider2D other) {
+		if (tagName == string.Empty || other.CompareTag(tagName)) {
 			onEnter?.Invoke(other.gameObject);
 		}
 	}
 
-	public void OnTriggerStay(Collider other)
-	{
-		if (tagName == string.Empty || other.CompareTag(tagName))
-		{
+	public void OnTriggerStay2D(Collider2D other) {
+		if (tagName == string.Empty || other.CompareTag(tagName)) {
 			onStay?.Invoke(other.gameObject);
 		}
 	}
 
-	public void OnTriggerExit(Collider other)
+	public void OnTriggerExit2D(Collider2D other)
 	{
 		if (tagName == string.Empty || other.CompareTag(tagName))
 		{
@@ -37,7 +31,7 @@ public class CollisionAction : Action
 		}
 	}
 
-	public void OnCollisionEnter(Collision collision)
+	public void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (tagName == string.Empty || collision.gameObject.CompareTag(tagName))
 		{
@@ -45,21 +39,16 @@ public class CollisionAction : Action
 		}
 	}
 
-	public void OnCollisionStay(Collision collision)
-	{
-		if (tagName == string.Empty || collision.gameObject.CompareTag(tagName))
-		{
+	public void OnCollisionStay2D(Collision2D collision) {
+		if (tagName == string.Empty || collision.gameObject.CompareTag(tagName)) {
 			onStay?.Invoke(collision.gameObject);
 		}
 	}
 
-	public void OnCollisionExit(Collision collision)
-	{
-		if (tagName == string.Empty || collision.gameObject.CompareTag(tagName))
-		{
+	public void OnCollisionExit2D(Collision2D collision) {
+		if (tagName == string.Empty || collision.gameObject.CompareTag(tagName)) {
 			onExit?.Invoke(collision.gameObject);
 		}
 	}
-
 	#endregion
 }

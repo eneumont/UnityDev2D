@@ -24,7 +24,7 @@ public class MeleeWeapon2D : Weapon2D {
 	public override void Attack(eDirection direction) {
 		Vector3 position = (direction == eDirection.Right) ? attackRightTransform.position : attackLeftTransform.position;
 
-		var colliders = Physics2D.OverlapCircleAll(position, 2, layerMask);
+		var colliders = Physics2D.OverlapCircleAll(position, attackRadius, layerMask);
 		foreach (var collider in colliders) {
 			if ((tagName == "" || collider.gameObject.CompareTag(tagName)) && collider.gameObject.TryGetComponent(out IDamagable damagable)) {
 				damagable.ApplyDamage(damage);
