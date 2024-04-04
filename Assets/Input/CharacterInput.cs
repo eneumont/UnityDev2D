@@ -22,19 +22,16 @@ public class CharacterInput : MonoBehaviour
 	Vector3 direction;
 	Vector3 groundNormal;
 
-	private void OnEnable()
-	{
+	private void OnEnable() {
 		gameControls ??= new GameControls();
 		gameControls.Enable();
 	}
 
-	private void OnDisable()
-	{
+	private void OnDisable() {
 		gameControls.Disable();
 	}
 
-	void Start()
-	{
+	void Start() {
 		characterController = GetComponent<CharacterController>();
 		view ??= Camera.main.transform;
 	}
@@ -48,8 +45,7 @@ public class CharacterInput : MonoBehaviour
 
 		// ground
 		UpdateGroundNormal();
-		if (characterController.isGrounded && velocity.y < 0)
-		{
+		if (characterController.isGrounded && velocity.y < 0) {
 			velocity.y = 0;
 		}
 
@@ -57,8 +53,7 @@ public class CharacterInput : MonoBehaviour
 		Vector2 movement = gameControls.Player.Movement.ReadValue<Vector2>();
 		velocity.x = movement.x;
 		velocity.z = movement.y;
-		if (characterController.isGrounded && groundNormal.y < 1)
-		{
+		if (characterController.isGrounded && groundNormal.y < 1) {
 			velocity.y = -groundNormal.y;
 		}
 
@@ -70,8 +65,7 @@ public class CharacterInput : MonoBehaviour
 		velocity = qview * velocity;
 		
 		// jump
-		if (gameControls.Player.Jump.phase == InputActionPhase.Performed && characterController.isGrounded)
-		{
+		if (gameControls.Player.Jump.phase == InputActionPhase.Performed && characterController.isGrounded) {
 			velocity.y += Mathf.Sqrt(jumpHeight * -3.0f * Physics.gravity.y);
 			animator.SetTrigger("Jump");
 		}
@@ -82,8 +76,7 @@ public class CharacterInput : MonoBehaviour
 		// face direction
 		direction.x = velocity.x;
 		direction.z = velocity.z;
-		if (direction.sqrMagnitude > 0) 
-		{
+		if (direction.sqrMagnitude > 0) {
 			transform.forward = direction;
 		}
 
@@ -91,28 +84,22 @@ public class CharacterInput : MonoBehaviour
 		velocity.y += Physics.gravity.y * Time.deltaTime;
 	}
 
-	void UpdateGroundNormal()
-	{
-		if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
-		{
+	void UpdateGroundNormal() {
+		if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit)) {
 			groundNormal = hit.normal;
-		}
-		else
-		{
+		} else {
 			groundNormal = Vector3.up;
 		}
 	}
 
-	private void OnCollisionEnter(Collision collision)
-	{
+	private void OnCollisionEnter(Collision collision) {
 		if (collision.gameObject.tag == "Crate") {
 			points += 10;
 			PointsUI.text = "Points: " + points.ToString();
 		}
 	}
 
-	private void OnDrawGizmosSelected()
-	{
+	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawRay(transform.position, groundNormal * 2);
 	}
