@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class CharacterInput : MonoBehaviour
-{
+public class CharacterInput : MonoBehaviour {
 	[SerializeField] private float jumpHeight = 3;
 	[SerializeField] private float speed = 1.0f;
 	[SerializeField] private Transform view = default;
